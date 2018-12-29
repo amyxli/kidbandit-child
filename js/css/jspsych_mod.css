@@ -12,8 +12,8 @@
    display: flex;
    flex-direction: column;
    overflow-y;
-   max-width:910px;
-   min-width:910px;
+   max-width:1000px;
+   min-width:1000px;
    -webkit-appearance: none;
    -moz-appearance: none;
    appearance: none;
