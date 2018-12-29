@@ -49,6 +49,10 @@
       './img/instruction_starmeter1.png',
       './img/instruction_starmeter2.png',
       './img/instruction_sticker.png',
+      './img/screen1a.png',
+      './img/screen1b.png',
+      './img/screen1c.png',
+      './img/screen1d.png',
       './img/screen2.jpg',
       './img/screen3a.jpg',
       './img/screen3b.jpg',
@@ -201,7 +205,12 @@
     // -------- Instructions & quiz --------
 
     // images for animated instructions sequence
-    var instruction_sequence = [
+    var instruction_sequence1 = [
+         'img/screen1a.png',
+         'img/screen1b.png',
+         'img/screen1c.png',
+    ]
+    var instruction_sequence2 = [
           'img/screen2.jpg',
           'img/screen2.jpg',
           'img/screen2.jpg',
@@ -230,43 +239,41 @@
     ]
     /* define the instruction block(s) */
 
-    var instruction_block1 = {
-      type: 'html-button-response',
-      timing_post_trial: 0,
-      choices: ['Next >'],
-      on_trial_start: function() { setTimeout(function() {setDisplay("jspsych-btn","")}, 1000)},
-      is_html: true,
-      timeline: [
-        {stimulus:
-              "<p>In this game, you will see some different monsters on the screen.</p> " +
-              "<img src='img/purplepractise.png'></img>" +
-              "<img src='img/redpractise.png'></img>" +
-              "<p>When you <strong>tap</strong> on a monster, " +
-              "it will give you some stars!</p>" +
-              "<p> Every monster can give you stars, but every monster is different! </p>" 
-              },
-      ]
-    };
-
-    // animated instructions re: progress bar + stickers
-    var instruction_block2={
+    // animated instructions 
+    var instruction_block1a={
         type: 'animation',
-        stimuli: instruction_sequence,
+        stimuli: instruction_sequence1,
+        frame_time: 2000,
+        choices: jsPsych.NO_KEYS,
+        timing_post_trial: 0,
+    } 
+
+    var instruction_block1b={
+        type: 'html-button-response',
+        timing_post_trial: 0,
+        stimulus: "<img src='img/screen1d.png'></img>",
+        choices: ['Next >'],
+    } 
+
+    var instruction_block2a={
+        type: 'animation',
+        stimuli: instruction_sequence2,
         frame_time: 800,
         choices: jsPsych.NO_KEYS,
         timing_post_trial: 0,
     } 
 
-    var instruction_block3={
+    var instruction_block2b={
         type: 'html-button-response',
         timing_post_trial: 0,
         stimulus: "<img src='img/screen5e.jpg'></img>",
         choices: ['Got it!'],
     }
 
-    timeline.push(instruction_block1);
-    timeline.push(instruction_block2);
-    timeline.push(instruction_block3); 
+    timeline.push(instruction_block1a);
+    timeline.push(instruction_block1b);
+    timeline.push(instruction_block2a);
+    timeline.push(instruction_block2b); 
 
 
     /* define attention check block */
@@ -301,7 +308,7 @@
             return "<img src='img/" + imgnames[last_monster] + ".png' width = 380px> <img src='img/" + pointvals_firsthalf[last_monster] + "star.png' width = 380px>";
             },
         choices: jsPsych.NO_KEYS,
-        trial_duration: 1000,
+        trial_duration: 1400,
         on_start: function() {
             var last_monster = jsPsych.data.get().last(1).values()[0].button_pressed;
             return pointsAdded = pointvals_firsthalf[last_monster];
@@ -327,7 +334,7 @@
             return "<img src='img/" + imgnames[last_monster] + ".png' width = 380px><img src='img/" + pointvals_secondhalf[last_monster] + "star.png' width = 380px>";
         },
         choices: jsPsych.NO_KEYS,
-        trial_duration: 1000,
+        trial_duration: 1400,
         on_start: function() {
             var last_monster = jsPsych.data.get().last(1).values()[0].button_pressed;
             return pointsAdded = pointvals_secondhalf[last_monster];
