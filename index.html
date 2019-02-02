@@ -109,7 +109,7 @@
         //   jsPsych.data.get().localSave('csv','test.csv')
         // },  // uncomment to locally save data file
         on_finish: function() {
-          endExperiment(jsPsych.data.get().csv(), function() {document.write('<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px"><p><br><br><br>You\'re all done!<br><br><br> "<img src=\'img/minions.gif\' </img> <br><br>  Thanks for playing with us! <br><br> Now go get your stickers!</p></div></div>') }
+          endExperiment(jsPsych.data.get().csv(), function() {document.write('<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px"><p><br><br><br>You\'re all done!<br><br><br> <img src=\'img/minions.gif\' </img> <br><br>  Thanks for playing with us! <br><br> Now go get your stickers!</p></div></div>') }
         )}, // uncomment for cloud save
         show_progress_bar: true,
         auto_update_progress_bar: false
@@ -204,6 +204,16 @@
 
     // -------- Instructions & quiz --------
 
+    // experimenter introduction
+
+    var intro = {
+      type: 'html-button-response',
+      timing_post_trial: 0,
+      choices: ['Start!'],
+      stimulus:"",
+      is_html: true,
+    }
+
     // images for animated instructions sequence
     var instruction_sequence1 = [
          'img/screen1a.png',
@@ -243,7 +253,7 @@
     var instruction_block1a={
         type: 'animation',
         stimuli: instruction_sequence1,
-        frame_time: 2000,
+        frame_time: 3000,
         choices: jsPsych.NO_KEYS,
         timing_post_trial: 0,
     } 
@@ -270,6 +280,7 @@
         choices: ['Got it!'],
     }
 
+    timeline.push(intro);
     timeline.push(instruction_block1a);
     timeline.push(instruction_block1b);
     timeline.push(instruction_block2a);
