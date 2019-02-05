@@ -9,10 +9,10 @@
     <script src="./js/jspsych.js"></script>
     <script src="./js/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="./js/plugins/jspsych-html-keyboard-response-copy.js"></script>
-    <script src="./js/plugins/jspsych-survey-multi-choice.js"></script>
     <script src="./js/plugins/jspsych-html-button-response.js"></script>
     <script src="./js/plugins/jspsych-image-keyboard-response.js"></script>
     <script src="./js/plugins/jspsych-animation.js"></script>
+    <script src="./js/plugins/jspsych-survey-text.js"></script>
     <script src="./js/welcome.js"></script>
     <script src="./js/jquery.min.js"></script>
     <link href="./js/css/jspsych_mod.css" rel="stylesheet" type="text/css"></link>
@@ -105,12 +105,12 @@
       jsPsych.init({
         timeline: timeline,
         preload_images: images,
-        // on_finish: function() {
-        //   jsPsych.data.get().localSave('csv','test.csv')
-        // },  // uncomment to locally save data file
         on_finish: function() {
-          endExperiment(jsPsych.data.get().csv(), function() {document.write('<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px"><p><br><br><br>You\'re all done!<br><br><br> <img src=\'img/minions.gif\' </img> <br><br>  Thanks for playing with us! <br><br> Now go get your stickers!</p></div></div>') }
-        )}, // uncomment for cloud save
+          jsPsych.data.get().localSave('csv','test.csv')
+         },  // uncomment to locally save data file
+        //on_finish: function() {
+        //  endExperiment(jsPsych.data.get().csv(), function() {document.write('<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px"><p><br><br><br>You\'re all done!<br><br><br> <img src=\'img/minions.gif\' </img> <br><br>  Thanks for playing with us! <br><br> Now go get your stickers!</p></div></div>') }
+        //)}, // uncomment for cloud save
         show_progress_bar: true,
         auto_update_progress_bar: false
       });
@@ -533,7 +533,11 @@
      ]
     }
 
-
+    var posttest7 = {
+      type: 'survey-text',
+      questions: [{prompt: "Why did you like that monster the most?"}],
+    }
+            
     timeline.push(trials1);
     timeline.push(trials2);
     timeline.push(end_game);
@@ -543,7 +547,7 @@
     timeline.push(posttest4);
     timeline.push(posttest5);
     timeline.push(posttest6);
-    /* start by running the "welcome" */
+    timeline.push(posttest7);
 
   </script>
 </html>
