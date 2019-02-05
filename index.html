@@ -105,12 +105,12 @@
       jsPsych.init({
         timeline: timeline,
         preload_images: images,
-        on_finish: function() {
-          jsPsych.data.get().localSave('csv','test.csv')
-         },  // uncomment to locally save data file
         //on_finish: function() {
-        //  endExperiment(jsPsych.data.get().csv(), function() {document.write('<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px"><p><br><br><br>You\'re all done!<br><br><br> <img src=\'img/minions.gif\' </img> <br><br>  Thanks for playing with us! <br><br> Now go get your stickers!</p></div></div>') }
-        //)}, // uncomment for cloud save
+        //  jsPsych.data.get().localSave('csv','test.csv')
+        // },  // uncomment to locally save data file
+        on_finish: function() {
+          endExperiment(jsPsych.data.get().csv(), function() {document.write('<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px"><p><br><br><br>You\'re all done!<br><br><br> <img src=\'img/minions.gif\' </img> <br><br>  Thanks for playing with us! <br><br> Now go get your stickers!</p></div></div>') }
+        )}, // uncomment for cloud save
         show_progress_bar: true,
         auto_update_progress_bar: false
       });
@@ -154,6 +154,10 @@
       imgnames = shuffle(["yellowmonster","redmonster","greenmonster","purplemonster"]);
       pointvals_firsthalf = shuffle([1,2,3,6]);
       pointvals_secondhalf = [];
+
+      // create options for posttest
+      otherops = ["none", "idk"];
+      posttest_choices = imgnames.concat(otherops);
 
   // -------- Randomly assign participant to condition
   var condition = ['static', 'dynamic'];
@@ -399,7 +403,7 @@
 
     var posttest1 = {
       type: 'html-button-response',
-      choices: ["yellowmonster", "purplemonster", "redmonster", "greenmonster","none","idk"],
+      choices: posttest_choices,
       button_html: '<button class="jspsych-btn-monsters"><img src="img/%choice%.png" width="260px"></button>',
       post_trial_gap: 800,
       is_html: true,
@@ -422,7 +426,7 @@
 
     var posttest2 = {
       type: 'html-button-response',
-      choices: ["yellowmonster", "purplemonster", "redmonster", "greenmonster","none","idk"],
+      choices: posttest_choices,
       button_html: '<button class="jspsych-btn-monsters"><img src="img/%choice%.png" width="260px"></button>',
       post_trial_gap: 800,
       is_html: true,
@@ -445,7 +449,7 @@
 
     var posttest3 = {
       type: 'html-button-response',
-      choices: ["yellowmonster", "purplemonster", "redmonster", "greenmonster","none","idk"],
+      choices: posttest_choices,
       button_html: '<button class="jspsych-btn-monsters"><img src="img/%choice%.png" width="260px"></button>',
       post_trial_gap: 1000,
       is_html: true,
@@ -458,7 +462,7 @@
      on_finish: function(data){
         var pt_pressed = jsPsych.data.get().last(1).values()[0].button_pressed;
         var pt_chosen = pointvals_firsthalf[pt_pressed];
-        if (pt_chosen == 4){
+        if (pt_chosen == 3){
           data.posttest = 'correct'
         } else {
           data.posttest = 'incorrect'
@@ -468,7 +472,7 @@
 
     var posttest4 = {
       type: 'html-button-response',
-      choices: ["yellowmonster", "purplemonster", "redmonster", "greenmonster","none","idk"],
+      choices: posttest_choices,
       button_html: '<button class="jspsych-btn-monsters"><img src="img/%choice%.png" width="260px"></button>',
       post_trial_gap: 800,
       is_html: true,
@@ -481,7 +485,7 @@
      on_finish: function(data){
         var pt_pressed = jsPsych.data.get().last(1).values()[0].button_pressed;
         var pt_chosen = pointvals_secondhalf[pt_pressed];
-        if (pt_chosen == 4){
+        if (pt_chosen == 6){
           data.posttest = 'correct'
         } else {
           data.posttest = 'incorrect'
@@ -491,7 +495,7 @@
 
     var posttest5 = {
       type: 'html-button-response',
-      choices: ["yellowmonster", "purplemonster", "redmonster", "greenmonster","none","idk"],
+      choices: posttest_choices,
       button_html: '<button class="jspsych-btn-monsters"><img src="img/%choice%.png" width="260px"></button>',
       post_trial_gap: 800,
       is_html: true,
