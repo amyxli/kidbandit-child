@@ -3,8 +3,8 @@ var welcome = {};
 // --------------  things that vary from task to task --------------
 
 welcome.task = {};
-welcome.task.blurb = '<b>"The Monsters Game"</b> is a short psychological study investigating how people make decisions.';
-welcome.task.time = '5 minutes';
+welcome.task.blurb = '<b>"The Monsters Game"</b> is a short psychological study investigating how people make decisions. <br> This is a <b> demo of the child version of the study containing 20 trials. </b>Data will save locally as a .csv file after completing the task.';
+welcome.task.time = '15-20 minutes';
 welcome.task.pay = 'US$0.85';
 
 // --------------  things that vary between ethics approvals --------------
@@ -42,7 +42,7 @@ welcome.click.demographics = function() {
     welcome.helpers.setDisplay('header', 'none');
     jsPsych.data.addProperties({  // record the condition assignment in the jsPsych data
         subjID: document.getElementById("subjID").value,
-        gender: welcome.helpers.getRadioButton("gender"),
+        gender: document.getElementById("gender").value,
         age: document.getElementById("age").value,
         dob: document.getElementById("dob").value,
         dot: document.getElementById("dot").value,
@@ -65,21 +65,17 @@ welcome.section.start =
     '<div class="start" style="width: 900px">' +
     '<div class="start" style="text-align:left; border:0px solid; padding:10px;' +
     '                          width:800px; float:right; font-size:90%">' +
-    '<p>Thanks for accepting the HIT. ' + welcome.task.blurb + ' It involves the following steps:</p>' +
+    welcome.task.blurb + ' <br><br>The study involves the following steps:</p>' +
     '<ol>' +
-    '<li> We ask for demographic information (not connected to your Amazon ID)<br></li>' +
-    '<li> Because this is a University research project, we ask for your informed consent. ' +
-    '     (The format of the consent form is a  standard university document, so it sometimes ' +
-    '     looks a little weird on MTurk)<br></li>' +
-    '<li> The study then explains how to do the task in detail. You will need to pass a short ' +
-    '     test to check that you understand how the study works.<br></li>' +
+    '<li> Because this is a University research project, we ask for informed consent in the adult version of the task. ' +
+    '     (Skip through this screen for children.)<br></li>' +
+    '<li> We ask for demographic information and participant ID. From this point on, please follow the protocol.</li>' +
+    '<li> The study (and the experimenter) then explain how to do the task in detail. <br></li>' +
     '<li> Next comes the experiment itself.<br></li>' +
-    '<li> At the end, we will give you the completion code you need to get paid for the HIT.</li>' +
     '</ol>' +
     '<p>The total time taken should be about ' + welcome.task.time + '. Please <u>do not</u> use the "back" ' +
-    '   button on your browser or close the window until you reach the end and receive your completion ' +
-    '   code. This is very likely to break the experiment and may make it difficult for you to get paid.' +
-    '   However, if something does go wrong, please contact us! When you are ready to begin, click on' +
+    '   button on your browser or close the window until you reach the end' +
+    '. This is very likely to break the experiment. When you are ready to begin, click on' +
     '   the "start" button below.</p>' +
     '<!-- Next button for the splash page -->' +
     '<p align="center"> <input type="button" id="splashButton" class="start jspsych-btn" ' +
@@ -125,7 +121,7 @@ welcome.section.demographics =
     '		<div class="demographics" style="text-align:left; border:0px solid; padding:10px;  width:800px; font-size:90%; float:right">' +
     '            <p font-size:140%><b>Demographic information</b></p>' +
     '     <!-- Subject ID -->' +
-    '           <label for="subjID"><b>ID (e.g. C001): &nbsp;</b></label><input id="subjID" name="subjID" /><br /><br />' +
+    '           <label for="subjID"><b>ID (e.g. I001): &nbsp;</b></label><input id="subjID" name="subjID" /><br /><br />' +
     '			<!-- Gender -->' +
     '           <label for="age"><b>Gender: &nbsp;</b></label><input id="gender" name="gender" /><br /><br />' +
     '			<!-- Age -->' +
