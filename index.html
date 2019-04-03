@@ -8,18 +8,20 @@
     <title>UNSW Monsters Game</title>
     <script src="./js/jspsych.js"></script>
     <script src="./js/plugins/jspsych-html-keyboard-response.js"></script>
-    <script src="./js/plugins/jspsych-html-keyboard-response-copy.js"></script>
     <script src="./js/plugins/jspsych-html-button-response.js"></script>
     <script src="./js/plugins/jspsych-image-keyboard-response.js"></script>
     <script src="./js/plugins/jspsych-animation.js"></script>
     <script src="./js/plugins/jspsych-survey-text.js"></script>
+    <script src="./js/plugins/jspsych-audio-keyboard-response.js"></script>
+    <script src="./js/plugins/jspsych-audio-button-response.js"></script>
     <script src="./js/welcome.js"></script>
     <script src="./js/jquery.min.js"></script>
     <link href="./js/css/jspsych_mod.css" rel="stylesheet" type="text/css"></link>
   </head>
 
   <body>
-	  <div id="welcome"></div>
+    <div id="welcome"></div>
+
   </body>
 
   <script>
@@ -80,9 +82,17 @@
       './img/8star.png',
       // others
       './img/minions.gif', // minions cheering
-      './img/thumbsup.gif' // cartoon cat giving thumbs up
-	  ];
+      './img/confetti.gif' // cartoon cat giving thumbs up
+    ];
 
+    var sound = [
+      'sound/1star.wav',
+      'sound/2star.wav',
+      'sound/3star.wav',
+      'sound/6star.wav',
+      'sound/8star.wav',
+      'sound/celebration.wav',
+    ];
 
     // function to start the jsPsych experiment
     function startExperiment(){
@@ -104,9 +114,10 @@
 
       jsPsych.init({
         timeline: timeline,
+        preload_audio: sound,
         preload_images: images,
         //on_finish: function() {
-        //  jsPsych.data.get().localSave('csv','test.csv')
+         // jsPsych.data.get().localSave('csv','test.csv')
         // },  // uncomment to locally save data file
         on_finish: function() {
           endExperiment(jsPsych.data.get().csv(), function() {document.write('<div id="endscreen" class="endscreen" style="width:1000px"><div class="endscreen" style="text-align:center; border:0px solid; padding:10px; font-size:120%; width:800px"><p><br><br><br>You\'re all done!<br><br><br> <img src=\'img/minions.gif\' </img> <br><br>  Thanks for playing with us! <br><br> Now go get your stickers!</p></div></div>') }
@@ -115,7 +126,6 @@
         auto_update_progress_bar: false
       });
       }
-
 
     // function to end the experiment
     function endExperiment(dataset,callback) {
@@ -313,12 +323,50 @@
         post_trial_gap: 100,
     }
 
+    /*
+     // --- screen when benchmark/goal reached --- //
+    
+    // define screen to be shown if goal reached
+    var splash_screen = {
+      type: 'html-keyboard-response',
+      timing_post_trial: 0,
+      stimulus: 'dummy sticker screen',
+      trial_duration: 1400,
+    }
+    // but push it to a conditional node that only shows if pointsCurrent==18
+    var conditional_splash = {
+      timeline: [splash_screen],
+      conditional_function: function(data) {
+        var pointsCurrent = pointsCurrent;
+        if(pointsCurrent == 18){
+          return true;
+        } else {
+          return false;
+      };
+      },
+    }
+
+    // break on access of variable (watch point)
+    timeline.push(conditional_splash);
+    // set up array /variables of target number of points
+    // if (not stageOneReached) and (pointsCurrent >= 18) then
+    //    stageOneReached = true
+    //    doStageOne;
+    // else if (not stageTwoReached) and (pointsCurrent >= 30) then
+    //    stageTwoReached = true
+    //    displayStageTwoPopup
+    // stageonereached is true/false
+
+    */
 
     // the "see the feedback" part of the trial (1st half)...
     var feedback1 = {
-        type: 'html-keyboard-response',
-        is_html:true,
-        stimulus: function(){
+      type: 'audio-keyboard-response',
+      stimulus: function(data){
+        var pts = pointvals_firsthalf[jsPsych.data.get().last(1).values()[0].button_pressed];
+        return 'sound/' + pts + 'star.wav'; 
+      },
+        prompt: function(){
             var last_monster = jsPsych.data.get().last(1).values()[0].button_pressed;
             return "<img src='img/" + imgnames[last_monster] + ".png' width = 380px> <img src='img/" + pointvals_firsthalf[last_monster] + "star.png' width = 380px>";
             },
@@ -342,14 +390,19 @@
     };
         // the "see the feedback" part of the trial (2nd half)...
     var feedback2 = {
-        type: 'html-keyboard-response',
+        type: 'audio-keyboard-response',
+        stimulus: function(data){
+        var pts = pointvals_secondhalf[jsPsych.data.get().last(1).values()[0].button_pressed];
+        return 'sound/' + pts + 'star.wav';
+        },
         is_html:true,
-        stimulus: function(){
+        prompt: function(){
             var last_monster = jsPsych.data.get().last(1).values()[0].button_pressed;
             return "<img src='img/" + imgnames[last_monster] + ".png' width = 380px><img src='img/" + pointvals_secondhalf[last_monster] + "star.png' width = 380px>";
         },
         choices: jsPsych.NO_KEYS,
         trial_duration: 1400,
+        response_ends_trial: false,
         on_start: function() {
             var last_monster = jsPsych.data.get().last(1).values()[0].button_pressed;
             return pointsAdded = pointvals_secondhalf[last_monster];
@@ -367,10 +420,12 @@
     };
 
 
+  
+
     // push # copies of it to the timeline
     var trials1 = {
       timeline: [monster, feedback1],
-      repetitions: 50,
+      repetitions: 40,
       randomize_order: false,
     };
 
@@ -378,27 +433,28 @@
     // push # copies of it to the timeline
     var trials2 = {
       timeline: [monster, feedback2],
-      repetitions: 50,
+      repetitions: 40,
       randomize_order: false,
     };
 
     // -------- End screen and post-test questions --------
     var end_game = {
-      type: 'html-button-response',
-      is_html: true,
+      type: 'audio-button-response',
       on_start: function(){
           document.querySelector('#jspsych-progressbar-container').style.display = 'none';
         },
       timing_post_trial: 0,
-      choices: ['Okay!'],
-      stimulus: function(){
+      stimulus:'sound/celebration.wav',
+      prompt: function(){
           var totalPoints = jsPsych.data.get().last(1).values()[0].earnedCumulative;
           return "<br><br>Thanks for playing with us! You earned " + totalPoints + " stars!<br><br>" + 
-          "<img src='img/thumbsup.gif' width='280px'</img> <br> <br>" + // can remove this gif if needed
+          "<img src='img/confetti.gif' width='280px'</img> <br> <br>" + // can remove this gif if needed
           "Wow, that\'s a <b>lot</b> of stars! <br> " +
           "Now we just a few more questions for you...<br>"
         },
+      choices: ['Okay!'],
       timing_post_trial: 0,
+      margin_vertical: '10px',
     }
 
     var posttest1 = {

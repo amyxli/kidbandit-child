@@ -115,16 +115,18 @@ jsPsych.plugins["audio-button-response"] = (function() {
     }
 
     var html = '<div id="jspsych-audio-button-response-btngroup">';
+    
+    		//show prompt if there is one
+		if (trial.prompt !== null) {
+			html += trial.prompt;
+    } //
+    
     for (var i = 0; i < trial.choices.length; i++) {
       var str = buttons[i].replace(/%choice%/g, trial.choices[i]);
       html += '<div class="jspsych-audio-button-response-button" style="cursor: pointer; display: inline-block; margin:'+trial.margin_vertical+' '+trial.margin_horizontal+'" id="jspsych-audio-button-response-button-' + i +'" data-choice="'+i+'">'+str+'</div>';
     }
-		html += '</div>';
+		html += '</div>'; // this is the button
 
-		//show prompt if there is one
-		if (trial.prompt !== null) {
-			html += trial.prompt;
-		}
 
 		display_element.innerHTML = html;
 

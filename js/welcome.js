@@ -3,8 +3,8 @@ var welcome = {};
 // --------------  things that vary from task to task --------------
 
 welcome.task = {};
-welcome.task.blurb = '<b>"The Monsters Game"</b> is a short psychological study investigating how people make decisions. <br> This is a <b> demo of the child version of the study containing 20 trials. </b>Data will save locally as a .csv file after completing the task.';
-welcome.task.time = '15-20 minutes';
+welcome.task.blurb = '<b>"The Monsters Game"</b> is a short psychological study investigating how people make decisions. <br> This is the <b> actual version </b> of the child version of the study, containing 80 trials.';
+welcome.task.time = '10-15 minutes';
 welcome.task.pay = 'US$0.85';
 
 // --------------  things that vary between ethics approvals --------------
@@ -69,7 +69,8 @@ welcome.section.start =
     '<ol>' +
     '<li> Because this is a University research project, we ask for informed consent in the adult version of the task. ' +
     '     (Skip through this screen for children.)<br></li>' +
-    '<li> We ask for demographic information and participant ID. From this point on, please follow the protocol.</li>' +
+    '<li> We ask for demographic information and participant ID. If this is a practice run, please indicate so in the ID field.<br>' +
+    'From this point on, please follow the protocol.</li>' +
     '<li> The study (and the experimenter) then explain how to do the task in detail. <br></li>' +
     '<li> Next comes the experiment itself.<br></li>' +
     '</ol>' +
