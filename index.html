@@ -323,41 +323,6 @@
         post_trial_gap: 100,
     }
 
-    /*
-     // --- screen when benchmark/goal reached --- //
-    
-    // define screen to be shown if goal reached
-    var splash_screen = {
-      type: 'html-keyboard-response',
-      timing_post_trial: 0,
-      stimulus: 'dummy sticker screen',
-      trial_duration: 1400,
-    }
-    // but push it to a conditional node that only shows if pointsCurrent==18
-    var conditional_splash = {
-      timeline: [splash_screen],
-      conditional_function: function(data) {
-        var pointsCurrent = pointsCurrent;
-        if(pointsCurrent == 18){
-          return true;
-        } else {
-          return false;
-      };
-      },
-    }
-
-    // break on access of variable (watch point)
-    timeline.push(conditional_splash);
-    // set up array /variables of target number of points
-    // if (not stageOneReached) and (pointsCurrent >= 18) then
-    //    stageOneReached = true
-    //    doStageOne;
-    // else if (not stageTwoReached) and (pointsCurrent >= 30) then
-    //    stageTwoReached = true
-    //    displayStageTwoPopup
-    // stageonereached is true/false
-
-    */
 
     // the "see the feedback" part of the trial (1st half)...
     var feedback1 = {
